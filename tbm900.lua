@@ -6,6 +6,7 @@
 -- right throttle lever = _joy_AXIS_use53 9
 
 if PLANE_ICAO == "TBM9" then
+	-- Set up the axes - this will vary per device per computer. need to dig in the prefs files to find the right values
 	local small_throttle_axis_number = 52
 	local mixture_lever_axis_number = 54
 	local flap_up_switch_number = 181
@@ -17,6 +18,7 @@ if PLANE_ICAO == "TBM9" then
 	dataref("emerg_power", "tbm900/controls/engine/emerg_power", "writable")
 	dataref("flaps_pos", "sim/flightmodel/controls/flaprqst", "readonly")
 
+	--Handle setting up the left throttle as the TBM900 has an 'h' shaped throttle axis.
 	--notch numbers
 	local notch_high = 1.00 --these are points on my throttle where I have 3D printed detents
 	local notch_mid = 0.82
@@ -36,7 +38,7 @@ if PLANE_ICAO == "TBM9" then
 		lastNotch = throttle_notch_axis
 	end
 
-
+	-- Handle flaps to set all 3 positions - could be useful for many other aircraft!
 	function setTbmFlapsUP()
 		posref = XPLMFindDataRef("sim/flightmodel/controls/flaprqst")
 		XPLMSetDataf(posref, 0.0)
@@ -56,6 +58,7 @@ if PLANE_ICAO == "TBM9" then
 	create_command("fwl/tbm900/controls/flaps_to", "Flaps TO", "", "", "setTbmFlapsTO()")
 	create_command("fwl/tbm900/controls/flaps_ldg", "Flaps LDG", "", "", "setTbmFlapsLDG()")
 
+	--This if() is likely redundant now but I'm keeping it
 	if PLANE_ICAO == "TBM9" then
 		set_button_assignment(flap_up_switch_number,"fwl/tbm900/controls/flaps_up")
 		set_button_assignment(flap_mid_switch_number,"fwl/tbm900/controls/flaps_to")
